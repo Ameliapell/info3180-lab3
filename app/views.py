@@ -2,6 +2,31 @@ from app import app
 from flask import render_template, request, redirect, url_for, flash
 
 
+from flask import render_template, request
+from app import app
+from .forms import ContactForm
+
+from app import mail
+from flask_mail import Message 
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+    if form.validate_on_submit():
+        # Process the form data
+        name = form.name.data
+        email = form.email.data
+        subject = form.subject.data
+        message = form.message.data
+
+        # You can perform further actions here, such as sending an email.
+
+        # Optionally, you can display a success message to the user
+        success_message = "Thank you for your message. We will get back to you soon."
+        return render_template('contact.html', form=form, success_message=success_message)
+
+    return render_template('contact.html', form=form)
+
 ###
 # Routing for your application.
 ###
